@@ -1,0 +1,53 @@
+Cor: 
+	"id": 6,
+        "descricao": "Preto"
+
+	"id": 7,
+        "descricao": "Fumê"
+
+Tipo:
+	"id": 6,
+        "descricao": "Vidro Refletivo"
+
+	"id": 2,
+        "descricao": "pelicula"
+
+Orcamento:
+
+        "id": 3,
+        "margem": 0.05
+
+Kit:
+	"id": 3,
+        "descricao": "kit porta pivotante com maçaneta"
+
+Pelicula:
+	
+	"id": 4,
+        "descricao": "película art cores preta",
+        "valorMetroQuadrado": 50.0,
+
+Vidro:
+	"id": 4,
+        "espessura": "08",
+        "valorMetroQuadrado": 380.0,
+        "tipo": {
+            "id": 6,
+            "descricao": "Vidro Refletivo"
+        },
+        "cor": {
+            "id": 7,
+            "descricao": "Fumê"
+
+kit: id: 3
+
+Ferragem: 
+
+	id: 1 (maçaneta), 2(pivo superior) e 5(pivo inferior)
+
+Peça: id: 4
+
+Orcamento: id: 3
+
+
+
