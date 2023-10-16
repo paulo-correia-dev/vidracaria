@@ -40,14 +40,6 @@ public class Orcamento {
 		this.margem = margem;
 	}
 
-	/*public List<PecaOrcamento> getPecaOrcamento() {
-		return pecaOrcamento;
-	}
-
-	public void setPecaOrcamento(List<PecaOrcamento> pecaOrcamento) {
-		this.pecaOrcamento = pecaOrcamento;
-	}*/
-
 	public double getValorFinal() {
 		return valorFinal;
 	}
@@ -56,4 +48,13 @@ public class Orcamento {
 		this.valorFinal = valorFinal;
 	}
 
+	public List<PecaOrcamento> getPecas() {
+		return pecas;
+	}
+
+	public void setPecas(List<PecaOrcamento> pecas) {
+		this.pecas = pecas;
+	}
+
+	
 }

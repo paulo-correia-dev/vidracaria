@@ -12,21 +12,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sistemavidracaria.model.Orcamento;
+import com.sistemavidracaria.dto.request.OrcamentoDto;
 import com.sistemavidracaria.service.Crud;
 import com.sistemavidracaria.service.OrcamentoService;
 
 @RestController
 @RequestMapping("/orcamentos")
-public class OrcamentoController implements Crud<Orcamento>{
+public class OrcamentoController implements Crud<OrcamentoDto>{
 
 	@Autowired
 	OrcamentoService orcamentoService;
 	
 	@PostMapping
 	@Override
-	public void salvar(@RequestBody Orcamento orcamento) {
-		orcamentoService.salvar(orcamento);
+	public void salvar(@RequestBody OrcamentoDto orcamentoDto) {
+		orcamentoService.salvar(orcamentoDto);
 		
 	}
 
@@ -39,15 +39,16 @@ public class OrcamentoController implements Crud<Orcamento>{
 
 	@PutMapping
 	@Override
-	public void atualizar(@RequestBody Orcamento orcamento) {
-		orcamentoService.atualizar(orcamento);
+	public void atualizar(@RequestBody OrcamentoDto orcamentoDto) {
+		orcamentoService.atualizar(orcamentoDto);
 		
 	}
 
 	@GetMapping
 	@Override
-	public List<Orcamento> listarTodos() {
+	public List<OrcamentoDto> listarTodos() {
 		return orcamentoService.listarTodos();
+		
 	}
 
 }
