@@ -1,5 +1,6 @@
 package com.sistemavidracaria.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,7 +26,7 @@ public class PecaOrcamento {
 	@JoinColumn(name = "id_pelicula")
 	private Pelicula pelicula;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "id_orcamento")
 	private Orcamento orcamento;
 	

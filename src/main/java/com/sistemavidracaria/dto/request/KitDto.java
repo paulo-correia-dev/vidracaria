@@ -1,31 +1,20 @@
-package com.sistemavidracaria.model;
+package com.sistemavidracaria.dto.request;
 
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Transient;
+import com.sistemavidracaria.model.Cor;
+import com.sistemavidracaria.model.FerragemKit;
 
-@Entity
-public class Kit {
+public class KitDto {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	private String descricao;
 	
 	private double valor;
 	
-	@Transient
 	private List<FerragemKit> ferragens;
 	
-	@ManyToOne
-	@JoinColumn(name = "id_cor")
 	private Cor cor;
 	
 	public int getId() {

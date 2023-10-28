@@ -1,0 +1,5 @@
+# Created at 2023-10-18T00:53:06.834
+Boot Manifest-JAR contains absolute paths in classpath 'D:\Desenvolvimento\Sistema Vidraçaria\vidracaria-backend\sistema-vidracaria\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+

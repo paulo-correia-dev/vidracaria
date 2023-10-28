@@ -1,5 +1,8 @@
 package com.sistemavidracaria.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +25,7 @@ public class FerragemKit {
 	
 	@ManyToOne
 	@JoinColumn(name = "id_kit")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Kit kit;
 
 	public Ferragem getFerragem() {

@@ -10,12 +10,14 @@ import org.springframework.stereotype.Service;
 import com.sistemavidracaria.dto.request.OrcamentoDto;
 import com.sistemavidracaria.model.FerragemKit;
 import com.sistemavidracaria.model.Orcamento;
+import com.sistemavidracaria.model.Peca;
 import com.sistemavidracaria.model.PecaOrcamento;
 import com.sistemavidracaria.model.Pelicula;
 import com.sistemavidracaria.model.Vidro;
 import com.sistemavidracaria.repository.FerragemKitRepository;
 import com.sistemavidracaria.repository.OrcamentoRepository;
 import com.sistemavidracaria.repository.PecaOrcamentoRepository;
+import com.sistemavidracaria.repository.PecaRepository;
 import com.sistemavidracaria.repository.PeliculaRepository;
 import com.sistemavidracaria.repository.VidroRepository;
 import com.sistemavidracaria.util.CalculosDiversos;
@@ -25,6 +27,9 @@ import jakarta.transaction.Transactional;
 @Service
 public class OrcamentoService{
 
+	@Autowired
+	private CalculosDiversos calculosDiversos;
+	
 	@Autowired
 	private OrcamentoRepository orcamentoRepository;
 	
@@ -40,48 +45,45 @@ public class OrcamentoService{
 	@Autowired
 	private PeliculaRepository peliculaRepository;
 	
+	@Autowired
+	PecaRepository pecaRepository;
+	
 	@Transactional
 	public void salvar(OrcamentoDto orcamentoDto) {
-		Orcamento orcamento = new Orcamento();
-		orcamento.setMargem(orcamentoDto.getMargem());
-		orcamento.setValorFinal(orcamentoDto.getValorFinal());
-		
-		orcamentoRepository.save(orcamento);
+			
+		Orcamento orcamento = salvarOrcamento(orcamentoDto);		
 		
 		double valoresPecas = 0.0;
 		
 		for(PecaOrcamento pecaOrcamento: orcamentoDto.getPecas()) {
-			pecaOrcamento.setOrcamento(orcamento);
+			pecaOrcamento.setOrcamento(orcamento);		
 		
-		
-			double metragemQuadradaPeca = CalculosDiversos.calculaArea(pecaOrcamento.getAltura(), pecaOrcamento.getLargura());
+			double metragemQuadradaPeca = calculosDiversos.calculaArea(pecaOrcamento.getAltura(), pecaOrcamento.getLargura());
 			
-			Optional<Vidro> vidro =  vidroRepository.findById(pecaOrcamento.getVidro().getId());
+			Optional<Vidro> vidro =  vidroRepository.findById(pecaOrcamento.getVidro().getId()); 
 			
-			double valorVidroPeca = vidro.get().getValorMetroQuadrado() * metragemQuadradaPeca;
+			Optional<Pelicula> pelicula = peliculaRepository.findById(pecaOrcamento.getPelicula().getId());	
 			
-			Optional<Pelicula> pelicula = peliculaRepository.findById(pecaOrcamento.getPelicula().getId());
+			Optional<Peca> peca = pecaRepository.findById(pecaOrcamento.getPeca().getId()); 
+		    
+			valoresPecas += calculosDiversos.calculaValorTotalPeca(peca.get().getKit().getValor(),
+																   calculosDiversos.calculaMaterialMetroQuadrado(vidro.get().getValorMetroQuadrado(), metragemQuadradaPeca),
+																   calculosDiversos.calculaMaterialMetroQuadrado(pelicula.get().getValorMetroQuadrado(), metragemQuadradaPeca));
 			
-			double valorPeliculaPeca = pelicula.get().getValorMetroQuadrado() * metragemQuadradaPeca;
-			
-			double valorKit = 0.0;
-			
-		    List<FerragemKit> fk = ferragemKitRepository.findByIdKit(pecaOrcamento.getPeca().getKit().getId()); 
-			
-		    for(FerragemKit fr : fk) {
-		    	valorKit += fr.getFerragem().getValor();    	
-		    }	
-			
-			pecaOrcamentoRepository.save(pecaOrcamento);		
-			
-			double valorPeca = valorKit + valorVidroPeca + valorPeliculaPeca;
-			
-			valoresPecas +=valorPeca;
+			pecaOrcamentoRepository.save(pecaOrcamento);	
 			
 		}
 		
-		orcamento.setValorFinal(valoresPecas + valoresPecas * orcamento.getMargem());
+		orcamento.setValorFinal(calculosDiversos.calculaValorFinalOrcamento(valoresPecas, orcamento.getMargem()));
 		
+	}
+	
+	public Orcamento salvarOrcamento(OrcamentoDto orcamentoDto) {
+		Orcamento orcamento = new Orcamento();
+		orcamento.setMargem(orcamentoDto.getMargem());
+		orcamento.setValorFinal(orcamentoDto.getValorFinal());
+		
+		return orcamentoRepository.save(orcamento);
 	}
 
 	public void excluir(int id) {
@@ -142,7 +144,7 @@ public class OrcamentoService{
 		
 		for(PecaOrcamento pecaOrcamento : banco) {	
 			
-			double metragemQuadradaPeca = CalculosDiversos.calculaArea(pecaOrcamento.getAltura(), pecaOrcamento.getLargura());
+			double metragemQuadradaPeca = calculosDiversos.calculaArea(pecaOrcamento.getAltura(), pecaOrcamento.getLargura());
 			
 			Optional<Vidro> vidro = vidroRepository.findById(pecaOrcamento.getVidro().getId());
 			

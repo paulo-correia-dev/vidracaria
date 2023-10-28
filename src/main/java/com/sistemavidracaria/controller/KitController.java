@@ -12,21 +12,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sistemavidracaria.model.Kit;
+import com.sistemavidracaria.dto.request.KitDto;
 import com.sistemavidracaria.service.Crud;
 import com.sistemavidracaria.service.KitService;
 
 @RestController
 @RequestMapping("/kits")
-public class KitController implements Crud<Kit>{
+public class KitController implements Crud<KitDto>{
 	
 	@Autowired
 	private KitService kitService;
 
 	@PostMapping
 	@Override
-	public void salvar(@RequestBody Kit kit) {
-		kitService.salvar(kit);
+	public void salvar(@RequestBody KitDto kitDto) {
+		kitService.salvar(kitDto);
 	}
 
 	@DeleteMapping("{id}")
@@ -37,14 +37,15 @@ public class KitController implements Crud<Kit>{
 
 	@PutMapping
 	@Override
-	public void atualizar(@RequestBody Kit kit) {
-		kitService.atualizar(kit);
+	public void atualizar(@RequestBody KitDto kitDto) {
+		kitService.atualizar(kitDto);
 	}
 
 	@GetMapping
 	@Override
-	public List<Kit> listarTodos() {
+	public List<KitDto> listarTodos() {
 		return kitService.listarTodos();
+		
 	}
 
 }

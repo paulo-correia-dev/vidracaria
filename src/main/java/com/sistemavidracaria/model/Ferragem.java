@@ -23,6 +23,10 @@ public class Ferragem {
 	@ManyToOne
 	@JoinColumn(name = "id_cor")
 	private Cor cor;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_tipo")
+	private Tipo tipo;
 
 	public int getId() {
 		return id;
@@ -63,6 +67,12 @@ public class Ferragem {
 	public void setCor(Cor cor) {
 		this.cor = cor;
 	}
-	
 
+	public Tipo getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(Tipo tipo) {
+		this.tipo = tipo;
+	}
 }
